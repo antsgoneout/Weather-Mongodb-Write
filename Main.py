@@ -74,6 +74,6 @@ while x > 0:   # loop forover or unitil program sets x on
 
     PrevObsTime = ObsTime
 
-
+#
 # pause for a minute
     time.sleep(60)
