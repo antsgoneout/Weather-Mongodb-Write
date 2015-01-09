@@ -18,6 +18,7 @@ try:
     c = Connection(host="localhost", port=27017)
 except:
     print('Could not connect to MongoDB')
+    exit()
 dbname=c["db"]
 assert dbname.connection == c
 
