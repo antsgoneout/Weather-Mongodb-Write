@@ -1,14 +1,15 @@
 __author__ = 'DuthoitA'
-#### Modification History ####
+#### Modification History ###############################################################
 # 8/1 Tidy up and prepare for continual running
 # 10/1 Improve error handling and load PrevObsdate from database
-##############################
+#########################################################################################
 
 import urllib.request
 from pymongo import *
 import json
 import time
 from datetime import datetime
+from UpdateGraph import update_plotly
 #
 #Init
 PrevObsTime = 0
@@ -26,7 +27,7 @@ Weather = dbname.weather
 #
 # Get last record so we can set previous observation time
 DataCursor=Weather.find({}, {"Observation Time": 1}).sort('_id', DESCENDING).limit(1)
-PrevObsTime = DataCursor[0]["Observation Time"]
+PrevObsTime = DataCursor[0]["Observation Time"]*60
 
 # Main control loop
 while x > 0:   # loop forover or unitil program sets x on
@@ -74,6 +75,7 @@ while x > 0:   # loop forover or unitil program sets x on
 
             post_id = Weather.insert(Dataout)
             print(post_id, Dataout)
+            update_plotly()
         else:
             print("Same time", ObsTime/60, datetime.now().time())
 
