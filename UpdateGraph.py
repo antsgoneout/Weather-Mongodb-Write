@@ -22,11 +22,13 @@ def update_plotly():
 
 #
 # get last 7 records
-    datacursor=dbname.weather.find({}, {"Observation Time": 1, "Temperature": 1, "Visibility": 1}).sort('_id', DESCENDING).limit(99)
+    datacursor=dbname.weather.find({}, {"ObsDate": 1, "Observation Time": 1, "Temperature": 1, "Visibility": 1}).sort('_id', DESCENDING).limit(24)
 
     for recordsets in datacursor:
         #print(recordsets["Observation Time"], recordsets["Temperature"])
-        xx.append(recordsets["Observation Time"])
+        Workdate = recordsets["ObsDate"]+str((recordsets["Observation Time"]))
+        xx.append(Workdate)
+#        xx.append(recordsets["Observation Time"])
         yy0.append(recordsets["Temperature"])
         yy1.append(recordsets["Visibility"])
 
@@ -60,6 +62,8 @@ def update_plotly():
             #ax=0,
             #ay=-40
             ),
+        xaxis=XAxis(
+            autorange='reversed'),
         yaxis=YAxis(
             title='Temperature Degrees C'
         ),
